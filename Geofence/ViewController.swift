@@ -24,6 +24,12 @@ class ViewController: UIViewController {
         locationManager.delegate = self
         locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
+        
+        setupData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,7 +50,29 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    // MARK: - Helper Functions
+    func setupData() {
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            let title = "Geofence Area"
+            let coordinate = CLLocationCoordinate2DMake(3.1390, 101.6869)
+            let regionRadius = 300.0
+            
+            let region = CLCircularRegion(center: CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude), radius: regionRadius, identifier: title)
+            locationManager.startMonitoring(for: region)
+            
+            let geofenceAnnotation = MKPointAnnotation()
+            geofenceAnnotation.coordinate = coordinate
+            geofenceAnnotation.title = title
+            mapView.addAnnotation(geofenceAnnotation)
+            
+            let circle = MKCircle(center: coordinate, radius: regionRadius)
+            mapView.add(circle)
+        }
+        else {
+            print("System can't track regions")
+        }
+    }
 
 }
 
@@ -54,6 +82,15 @@ extension ViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         print("Exit \(region.identifier)")
+    }
+}
+
+extension ViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let geofenceAreaRenderer = MKCircleRenderer(overlay: overlay)
+        geofenceAreaRenderer.strokeColor = UIColor.green
+        geofenceAreaRenderer.lineWidth = 0.5
+        return geofenceAreaRenderer
     }
 }
 
