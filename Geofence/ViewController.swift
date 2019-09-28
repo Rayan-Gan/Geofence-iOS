@@ -20,15 +20,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        locationManager.delegate = self
-        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
-        mapView.delegate = self
-        mapView.showsUserLocation = true
-        mapView.userTrackingMode = .follow
-        
+        setLocationManager()
+        setMapView()
         setupData()
     }
     
@@ -52,6 +46,16 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Helper Functions
+    func setLocationManager() {
+        locationManager.delegate = self
+        locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    func setMapView() {
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
+    }
     func setupData() {
         if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             let title = "Geofence Area"
