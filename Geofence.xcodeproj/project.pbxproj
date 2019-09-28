@@ -12,6 +12,7 @@
 		C5995A2A233F1AB60017C158 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5995A28233F1AB60017C158 /* Main.storyboard */; };
 		C5995A2C233F1AB60017C158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5995A2B233F1AB60017C158 /* Assets.xcassets */; };
 		C5995A2F233F1AB60017C158 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5995A2D233F1AB60017C158 /* LaunchScreen.storyboard */; };
+		C5995A37233F229A0017C158 /* SimulatedLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = C5995A36233F22090017C158 /* SimulatedLocation.gpx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		C5995A2B233F1AB60017C158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5995A2E233F1AB60017C158 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C5995A30233F1AB60017C158 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C5995A36233F22090017C158 /* SimulatedLocation.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SimulatedLocation.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				C5995A2B233F1AB60017C158 /* Assets.xcassets */,
 				C5995A2D233F1AB60017C158 /* LaunchScreen.storyboard */,
 				C5995A30233F1AB60017C158 /* Info.plist */,
+				C5995A36233F22090017C158 /* SimulatedLocation.gpx */,
 			);
 			path = Geofence;
 			sourceTree = "<group>";
@@ -126,6 +129,7 @@
 				C5995A2F233F1AB60017C158 /* LaunchScreen.storyboard in Resources */,
 				C5995A2C233F1AB60017C158 /* Assets.xcassets in Resources */,
 				C5995A2A233F1AB60017C158 /* Main.storyboard in Resources */,
+				C5995A37233F229A0017C158 /* SimulatedLocation.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
