@@ -2,7 +2,7 @@
 Setup a geofence and include a WiFi SSID(if applicable) to determine if you are inside or outside the geofence. This project allows a user to enter a coordinate, radius to the coordinates as well as a WiFi SSID to determine a geofence. If the user is withing the geofence or connected to the WiFi SSID entered, it will display *Inside*.
  
 ## How to use?
-When the user launches the app, a map will be displayed and the user will be asked to provide permission for the app to always use their location. At the bottom left is the status(e.g. Inside/Outside) of the user with reference to the geofence and WiFi SSID. The user can can tap on **Setup Geofence** to create a geofence. Once the parameters are entered, a circle showing the geofence will appear on the map. When the user enters the geofence or is connected to the entered WiFi SSID, the status will change to *Inside*.
+When the user launches the app, a map will be displayed and the user will be asked to provide permission for the app to always use their location. At the bottom left is the status(e.g. Inside/Outside) of the user with reference to the geofence and WiFi SSID. The user can can tap on **Set Geofence** to create a geofence. Once the parameters are entered, a circle showing the geofence will appear on the map. When the user enters the geofence or is connected to the entered WiFi SSID, the status will change to *Inside*.
 
 ## License
 MIT License
