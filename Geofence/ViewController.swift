@@ -15,10 +15,13 @@ class ViewController: UIViewController {
     
     // MARK: - IB Outlets
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var geofenceStatusLabel: UILabel!
     
     // MARK: - Properties
     let locationManager = CLLocationManager()
-    var wifiSSID = ""
+    var wifiSSID = "-1"
+    var enteredWiFiSSID = ""
+    var inGeofenceArea = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +65,7 @@ class ViewController: UIViewController {
         }
         alert.addTextField { (textField) in
             textField.placeholder = "Radius"
-            textField.keyboardType = .numberPad
+            textField.keyboardType = .decimalPad
         }
         alert.addTextField { (textField) in
             textField.placeholder = "WiFi SSID"
@@ -75,7 +78,8 @@ class ViewController: UIViewController {
             let longitudeDouble = Double(longitude)!
             let radius = alert!.textFields![2].text!.isEmpty ? "0" : alert!.textFields![2].text!
             let radiusDouble = Double(radius)!
-            let wifiSSID = alert!.textFields![3].text ?? ""
+            self.enteredWiFiSSID = alert!.textFields![3].text!
+            self.verifyGeofence()
             
             self.setupData(coordinate: CLLocationCoordinate2DMake(latitudeDouble, longitudeDouble), radius: radiusDouble)
         }))
@@ -132,14 +136,25 @@ class ViewController: UIViewController {
             }
         }
     }
+    func verifyGeofence() {
+        if inGeofenceArea || enteredWiFiSSID == wifiSSID {
+            geofenceStatusLabel.text = "Inside"
+        }
+        else {
+            geofenceStatusLabel.text = "Outside"
+        }
+    }
 }
 
 extension ViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print("Enter \(region.identifier)")
+        inGeofenceArea = true
     }
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
-        print("Exit \(region.identifier)")
+        inGeofenceArea = false
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        verifyGeofence()
     }
 }
 
