@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import SystemConfiguration.CaptiveNetwork
 
 class ViewController: UIViewController {
     
@@ -17,12 +18,14 @@ class ViewController: UIViewController {
     
     // MARK: - Properties
     let locationManager = CLLocationManager()
+    var wifiSSID = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setLocationManager()
         setMapView()
+        getConnectedWifiSSID()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,7 +115,23 @@ class ViewController: UIViewController {
             print("System can't track regions")
         }
     }
-
+    func getConnectedWifiSSID() {
+        if let interfaces:CFArray = CNCopySupportedInterfaces() {
+            for i in 0..<CFArrayGetCount(interfaces){
+                let interfaceName: UnsafeRawPointer = CFArrayGetValueAtIndex(interfaces, i)
+                let rec = unsafeBitCast(interfaceName, to: AnyObject.self)
+                let unsafeInterfaceData = CNCopyCurrentNetworkInfo("\(rec)" as CFString)
+                if unsafeInterfaceData != nil {
+                    let interfaceData = unsafeInterfaceData! as Dictionary!
+                    for dictData in interfaceData! {
+                        if dictData.key as! String == "SSID" {
+                            self.wifiSSID = dictData.value as! String
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension ViewController: CLLocationManagerDelegate {
