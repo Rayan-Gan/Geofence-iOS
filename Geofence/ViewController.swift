@@ -23,7 +23,6 @@ class ViewController: UIViewController {
         
         setLocationManager()
         setMapView()
-        setupData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -45,6 +44,42 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - IB Actions
+    @IBAction func setGeofenceBtnTapped(_ sender: UIButton) {
+        
+        let alert = UIAlertController(title: "Geofence Setup", message: "Please enter a coordinate, radius, and WiFi SSID", preferredStyle: .alert)
+        
+        alert.addTextField { (textField) in
+            textField.placeholder = "Latitude"
+            textField.keyboardType = .decimalPad
+        }
+        alert.addTextField { (textField) in
+            textField.placeholder = "Longitude"
+            textField.keyboardType = .decimalPad
+        }
+        alert.addTextField { (textField) in
+            textField.placeholder = "Radius"
+            textField.keyboardType = .numberPad
+        }
+        alert.addTextField { (textField) in
+            textField.placeholder = "WiFi SSID"
+        }
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let latitude = alert!.textFields![0].text!.isEmpty ? "0" : alert!.textFields![0].text!
+            let latitudeDouble = Double(latitude)!
+            let longitude = alert!.textFields![1].text!.isEmpty ? "0" : alert!.textFields![1].text!
+            let longitudeDouble = Double(longitude)!
+            let radius = alert!.textFields![2].text!.isEmpty ? "0" : alert!.textFields![2].text!
+            let radiusDouble = Double(radius)!
+            let wifiSSID = alert!.textFields![3].text ?? ""
+            
+            self.setupData(coordinate: CLLocationCoordinate2DMake(latitudeDouble, longitudeDouble), radius: radiusDouble)
+        }))
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - Helper Functions
     func setLocationManager() {
         locationManager.delegate = self
@@ -56,11 +91,11 @@ class ViewController: UIViewController {
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
     }
-    func setupData() {
+    func setupData(coordinate: CLLocationCoordinate2D, radius: Double) {
         if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
             let title = "Geofence Area"
-            let coordinate = CLLocationCoordinate2DMake(3.1390, 101.6869)
-            let regionRadius = 300.0
+            let coordinate = coordinate
+            let regionRadius = radius
             
             let region = CLCircularRegion(center: CLLocationCoordinate2DMake(coordinate.latitude, coordinate.longitude), radius: regionRadius, identifier: title)
             locationManager.startMonitoring(for: region)
